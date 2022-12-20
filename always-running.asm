@@ -2,9 +2,11 @@
 ;; mszegedy 2022
 
 ;; sa1 compatibility
+!sa1 = 0
 !base2 = $0000
 if read1($00ffd5) == $23
   sa1rom
+  !sa1 = 1
   !base2 = $6000
 endif
 
@@ -62,7 +64,7 @@ org $01aa58
   and $10
   db $d0  ; change a beq to a bne
 
-;; 01e6ce: carrying stuff while springboarding
+;; 01e6ce: carrying springboards
 org $01e6ce
   autoclean jsl springboard_hijack
   bra $01e6e2
