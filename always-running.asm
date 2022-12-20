@@ -10,7 +10,7 @@
 ;;; SETTINGS
 ;; two kinds of control scheme:
 ;; -- !use_lr: always run and grab. l cancels run, r cancels grab.
-;; -- !use_xy: always run and grab. x cancels run, y cancels both.
+;; -- !use_xy: always run and grab. x cancels both, y cancels run.
 ;; set !control_scheme to either to use that scheme.
 !control_scheme = !use_lr
 
