@@ -10,13 +10,6 @@ if read1($00ffd5) == $23
   !base2 = $6000
 endif
 
-macro is_l_not_held_to_z()
-  ;; sets z flag to 1 if l is not held, 0 if it is
-  lda $17
-  eor #$ff
-  and #$20
-endmacro
-
 macro is_l_not_held_to_v()
   ;; sets v flag to 1 if l is not held, 0 if it is
   lda $17
@@ -87,7 +80,7 @@ kicking_hijack:
 
 springboard_hijack:
   lda $17
-  and $10
+  and #$10
   bne +
   lda $1470|!base2
   ora $187a|!base2
