@@ -86,8 +86,13 @@ springboard_hijack:
   ora $187a|!base2
   bne +
   lda #$0b
-  sta $14c8|!base2,x
-  stz $1602|!base2,x
+  if !sa1
+    sta $3242,x
+    stz $33ce,x
+  else
+    sta $14c8,x
+    stz $1602,x
+  endif
 +
   rtl
 
