@@ -3,14 +3,14 @@
 
 ;;; internal constants (NOT SETTINGS)
 !use_lr = 0
-!use_y = 1
+!use_xy = 1
 !l_mask = $20
 !r_mask = $10
 
 ;;; SETTINGS
 ;; two kinds of control scheme:
-;; -- !use_lr: always run and grab. l cancels run, r cancels grab
-;; -- !use_y:  always run and grab. y cancels both.
+;; -- !use_lr: always run and grab. l cancels run, r cancels grab.
+;; -- !use_xy: always run and grab. x cancels run, y cancels both.
 ;; set !control_scheme to either to use that scheme.
 !control_scheme = !use_lr
 
@@ -104,15 +104,20 @@ if !control_scheme == !use_lr
   +
     rtl
 else
-  ;; if we're just inverting the use of y then it's way easier. we just change
-  ;; a bunch of bvcs into bvses, and one beq to a bne.
+  ;; if we're just inverting the use of y and adding "don't run" to x then it's
+  ;; way easier. we just change a bunch of bvcs into bvses, one beq to a bne,
+  ;; and a couple places where it reads $15 to read $17 instead.
   org $d717    ; running
     db $70  ; bvc > bvs
-  org $01a00f  ; kicking
+  org $01a00e  ; kicking
+    db $17  ; read $17 instead of $15
     db $70  ; bvc > bvs
-  org $01aa5c  ; carrying
+  org $01aa59  ; carrying part 1
+    db $17  ; read $17 instead of $15
+  org $01aa5c  ; carrying part 2
     db $d0  ; beq > bne
   org $01e6d0  ; carrying springboards (why does this have its own routine?)
+    db $17  ; read $17 instead of $15
     db $70  ; bvc > bvs
 endif
 
